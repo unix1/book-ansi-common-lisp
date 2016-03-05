@@ -1,4 +1,4 @@
-; ------------- chapter 2 exercises
+; ------------- chapter 3 exercises
 ;
 ; 2. Write a version of union that preserves the order of elements in the
 ; original lists
