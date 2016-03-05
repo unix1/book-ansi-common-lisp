@@ -43,4 +43,29 @@
 ;
 ; Define this function using (a) recursion, (b) iteration, (c) using mapcar.
 
-;(defun pos+ (lst)
+; (a) recursion
+(defun pos+r (lst)
+  (reverse (pos+raw lst 0 nil)))
+
+(defun pos+r-raw (lst pos acc)
+  (if (null lst)
+      acc
+      (pos+r-raw (cdr lst) (+ pos 1) (cons (+ (car lst) pos) acc))))
+
+; (b) iteration
+(defun pos+i (lst)
+  (let ((out nil)
+        (pos 0))
+    (dolist (obj lst)
+      (progn (setf out (cons (+ obj pos) out))
+             (setf pos (+ pos 1))))
+    (reverse out)))
+
+; (c) using mapcar
+(defun pos+m (lst)
+  (mapcar #'+ lst (pos+m-make-range 0 (length lst) 1 nil)))
+
+(defun pos+m-make-range (cur max step acc)
+  (if (> cur max)
+      (reverse acc)
+      (pos+m-make-range (+ cur step) max step (cons cur acc))))
