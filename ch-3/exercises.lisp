@@ -69,3 +69,52 @@
   (if (> cur max)
       (reverse acc)
       (pos+m-make-range (+ cur step) max step (cons cur acc))))
+
+; 6. After years of deliberation, a government commission has decided that
+; lists should be represented by using the cdr to point to the first element
+; and the car to point to the rest of the list. Define the government versions
+; of the following functions:
+;
+; (a) cons
+; (b) list
+; (c) length (for lists)
+; (d) member (for lists; no keywords)
+
+; 7. Modify the program in Figure 3.6 to use fewer cons cells. (Hint: Use
+; dotted lists.)
+(defun rle-encode (lst)
+  (reverse (rle-lib-encode lst nil)))
+
+(defun rle-lib-encode (lst acc)
+  (if (null lst)
+      acc
+      (let ((curr (car lst))
+            (prev (car (car acc)))
+            (cnt  (cdr (car acc))))
+        (if (equal curr prev)
+            (rle-lib-encode (cdr lst) (cons (cons curr (+ cnt 1)) (cdr acc)))
+            (rle-lib-encode (cdr lst) (cons (cons curr 1) acc))))))
+
+; 8. Define a function that takes a list and prints it in dot notation:
+; > (showdots '(a b c))
+; (A . (B . (C . NIL)))
+; NIL
+
+; This is only works for strings and is too hacky for real solution to the
+; given exercise.
+(defun showdots-string (lst)
+  (showdots-string-lib (reverse lst) nil (length lst)))
+
+(defun showdots-string-lib (lst acc len)
+  (if (null lst)
+      (concatenate 'string (reverse acc) (showdots-string-get-chars ")" len nil))
+      (let ((acc_print (if (null acc) "LIN" acc)))
+          (showdots-string-lib (cdr lst) (concatenate 'string acc_print "." (car lst) "(") len))))
+
+(defun showdots-string-get-chars (chr n acc)
+  (if (eql n 0)
+    acc
+    (showdots-string-get-chars chr (- n 1) (concatenate 'string acc chr))))
+
+; 9. Write a program to find the longest finite path through a network
+; represented as in Section 3.15. The network may contain cycles.
