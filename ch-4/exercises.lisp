@@ -18,7 +18,7 @@
                                                 acc))))
 
 (defun q-turn-raw-col (arr col cur-row acc)
-  (if (eql (print cur-row) -1)
+  (if (eql cur-row -1)
       acc
       (progn (setf (aref acc col (- (array-dimension acc 1) cur-row 1))
                    (aref arr cur-row col))
