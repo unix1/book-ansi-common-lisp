@@ -1,4 +1,4 @@
-; ------------- chapter 3 exercises
+; ------------- chapter 4 exercises
 ;
 ; 1. Define a function to take a square array (an array whose dimensions are
 ; (n n)) and rotate it 90 degrees clockwise.
