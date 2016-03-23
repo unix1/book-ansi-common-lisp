@@ -27,9 +27,30 @@
 ; 2. Read the description of reduce on page 368, then use it to define:
 ; (a) copy-list
 
-;(defun ch4-copy-list (lst)
-;  (reduce #'lambda
+(defun ch4-list-copy (lst)
+  (reduce #'(lambda (el acc) (cons el acc)) lst :from-end t :initial-value nil))
 
 ; (b) reverse (for lists)
+(defun ch4-list-reverse (lst)
+  (reduce #'(lambda (acc el) (cons el acc)) lst :initial-value nil))
 
-; 3. 
+; 3. Define a structure to represent a tree where each node contains some data
+; and has up to three children. Define
+; (a) a function to copy such a tree (so that no node in the copy is eql to a
+;     node in the original)
+; (b) a function that takes an object and such a tree, and returns true if
+;     object is eql to the data field of one of the nodes
+(defstruct tree3 val a b c)
+
+; 4. Define a function that take a BST and returns a list of its elements from
+; greatest to least.
+
+; 5. Define bst-adjoin. This function should take the same arguments as
+; bst-insert, but should only insert the object if there is nothing eql to it
+; in the tree.
+
+; 6. The contents of any hash table can be described by an assoc-list whose
+; elements are (k . v), for each key value pair in the hash table. Define a
+; function that
+; (a) takes an assoc-list and returns a corresponding hash table
+; (b) takes a hash table and returns a corresponding assoc-list
