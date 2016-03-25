@@ -53,4 +53,15 @@
 ; elements are (k . v), for each key value pair in the hash table. Define a
 ; function that
 ; (a) takes an assoc-list and returns a corresponding hash table
+(defun al-to-ht (al)
+  (reduce #'(lambda (acc el)
+              (progn (push (cdr el) (gethash (car el) acc))
+                     acc))
+          al
+          :initial-value (make-hash-table)))
+
 ; (b) takes a hash table and returns a corresponding assoc-list
+(defun ht-to-al (ht)
+  (let ((al nil))
+    (maphash #'(lambda (k v) (setf al (cons (cons k v) al))) ht)
+    al))
