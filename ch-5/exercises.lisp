@@ -1,4 +1,4 @@
-; ------------- chapter 4 exercises
+; ------------- chapter 5 exercises
 ;
 ; 1. Translate following expressions into equivalent expressions that don't use
 ; let or let*, and don't cause the same expression to be evaluated twice.
@@ -40,4 +40,11 @@
 ; > (precedes #\a "abracadabra")
 ; (#\c #\d #\r)
 
+(defun precedes-r (x v)
+  (precedes-r-raw x v 1 nil))
 
+(defun precedes-r-raw (x v cur-pos acc)
+  (let ((match-pos (position x v :start cur-pos)))
+       (if (null match-pos)
+           (remove-duplicates acc)
+           (precedes-r-raw x v (+ match-pos 1) (cons (aref v (- match-pos 1)) acc)))))
