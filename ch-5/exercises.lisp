@@ -78,3 +78,22 @@
           (setf acc (cons item acc))
           (setf acc (cons obj (cons item acc)))))
     (reverse (cdr acc))))
+
+; 7. Define a function that takes a list of numbers and returns true iff the
+; difference between each successive pair of them is 1, using:
+;
+; (a) recursion
+; (b) do
+; (c) mapc and return
+
+; 8. Define a single recursive function that returns, as two values, the
+; maximum and minimum elements of a vector.
+
+; 9. The program in Figure 3.12 continues to search as the first complete
+; path works its way through the queue. In broad searches this would be a
+; problem.
+;
+; (a) Using catch and throw, modify the program to return the first complete
+; path as soon as it is discovered.
+;
+; (b) Rewrite the program to do the same thing without using catch and throw.
