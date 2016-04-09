@@ -33,7 +33,7 @@
 
 ; 4. Rewrite num-month (Figure 5.1) to use case instead of svref.
 
-; 5. Define iterative and recursive version of a function that takes an object
+; 5. Define iterative and recursive versions of a function that takes an object
 ; and vector v, and returns a list of all the objects that immediately precede
 ; x in v:
 ;
@@ -48,3 +48,33 @@
        (if (null match-pos)
            (remove-duplicates acc)
            (precedes-r-raw x v (+ match-pos 1) (cons (aref v (- match-pos 1)) acc)))))
+
+(defun precedes-i (x v)
+  (let ((acc nil))
+    (do ((i 1 (+ i 1)))
+        ((>= i (array-dimension v 0)) 'done)
+      (if (eql (aref v i) x)
+          (push (aref v (- i 1)) acc)))
+    (remove-duplicates acc)))
+
+; 6. Define iterative and recursive versions of a function that takes an object
+; and a list, and returns a new list in which the object appears between each
+; pair of elements in the original list:
+;
+; > (intersperse '- '(a b c d))
+; (A - B - C - D)
+(defun intersperse-r (obj lst)
+  (intersperse-r-raw obj lst nil))
+
+(defun intersperse-r-raw (obj lst acc)
+  (if (null (cdr lst))
+      (reverse (cons (car lst) acc))
+      (intersperse-r-raw obj (cdr lst) (cons obj (cons (car lst) acc)))))
+
+(defun intersperse-i (obj lst)
+  (let ((acc nil))
+    (dolist (item lst)
+      (if (null (cdr lst))
+          (setf acc (cons item acc))
+          (setf acc (cons obj (cons item acc)))))
+    (reverse (cdr acc))))
