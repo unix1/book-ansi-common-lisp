@@ -88,6 +88,17 @@
 
 ; 8. Define a single recursive function that returns, as two values, the
 ; maximum and minimum elements of a vector.
+(defun min-max (v)
+  (min-max-raw v 1 (list (aref v 0) (aref v 0))))
+
+(defun min-max-raw (v cur acc)
+  (if (eql cur (array-dimension v 0))
+      (values (car acc) (car (cdr acc)))
+      (cond ((< (aref v cur) (car acc))
+                (min-max-raw v (+ cur 1) (cons (aref v cur) (cdr acc))))
+            ((> (aref v cur) (car (cdr acc)))
+                (min-max-raw v (+ cur 1) (cons (car acc) (cons (aref v cur) nil))))
+            (t (min-max-raw v (+ cur 1) acc)))))
 
 ; 9. The program in Figure 3.12 continues to search as the first complete
 ; path works its way through the queue. In broad searches this would be a
