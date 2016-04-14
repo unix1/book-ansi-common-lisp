@@ -83,8 +83,37 @@
 ; difference between each successive pair of them is 1, using:
 ;
 ; (a) recursion
+(defun one-off (lst)
+  (one-off-raw (car lst) (cdr lst)))
+
+(defun one-off-raw (prev lst)
+  (if (null lst)
+      nil
+      (or (eql (- prev (car lst)) 1)
+          (eql (- (car lst) prev) 1)
+          (one-off-raw (car lst) (cdr lst)))))
+
 ; (b) do
+(defun one-off-do (lst)
+  (do ((i 1 (+ i 1))
+       (ls lst (cdr ls))
+       (pr (car lst) (car ls)))
+      ((null ls) nil)
+    (if (or (eql (- pr (car ls)) 1)
+            (eql (- (car ls) pr) 1))
+        (return t))))
+
 ; (c) mapc and return
+(defun one-off-m (lst)
+  (let ((prv (car lst)))
+    (mapc
+        #'(lambda (x)
+          (progn (if (or (eql (- x prv) 1)
+                         (eql (- prv x) 1))
+                   (return-from one-off-m t))
+                 (setf prv (car lst))))
+        (cdr lst))
+    nil))
 
 ; 8. Define a single recursive function that returns, as two values, the
 ; maximum and minimum elements of a vector.
