@@ -107,11 +107,11 @@
 (defun one-off-m (lst)
   (let ((prv (car lst)))
     (mapc
-        #'(lambda (x)
-          (progn (if (or (eql (- x prv) 1)
-                         (eql (- prv x) 1))
-                   (return-from one-off-m t))
-                 (setf prv (car lst))))
+        #'(lambda (x y)
+            (if (or (eql (- x y) 1)
+                    (eql (- y x) 1))
+                (return-from one-off-m t)))
+        lst
         (cdr lst))
     nil))
 
