@@ -54,10 +54,23 @@
 
 ; 6. Define a function that takes one argument, a number, and returns the
 ; greatest argument passed to it so far.
+(defparameter *greatest-arg* nil)
+(defun greatest-arg (n)
+  (let ((result (if (null *greatest-arg*)
+                  n
+                  (max *greatest-arg* n))))
+    (setf *greatest-arg* result)))
 
 ; 7. Define a function that takes one argument, a number, and returns true if
 ; it is greater than the argument that was passed to the function the last time
 ; it was called. The function should return nil the first time it is called.
+(defparameter *greater-than-last-arg* nil)
+(defun greater-than-last-arg? (n)
+  (declare (special *greater-than-last-arg*))
+  (let ((result (and (not (null *greater-than-last-arg*))
+                  (> n *greater-than-last-arg*))))
+    (setf *greater-than-last-arg* n)
+    result))
 
 ; 8. Supposed expensive is a function of one argument, an integer between 0 and
 ; 100 inclusive, that returns the result of a time-consuming computation.
