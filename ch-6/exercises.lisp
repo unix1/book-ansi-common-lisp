@@ -51,6 +51,19 @@
 ; elements of a list.
 
 ; 5. Define remove-if (no keywords) in terms of filter (page 105)
+(defun remove-if-filter (fn lst)
+  (filter #'(lambda (x)
+              (if (null (funcall fn x))
+                  x
+                  nil))
+          lst))
+
+(defun filter (fn lst)
+  (let ((acc nil))
+    (dolist (x lst)
+      (let ((val (funcall fn x)))
+        (if val (push val acc))))
+    (nreverse acc)))
 
 ; 6. Define a function that takes one argument, a number, and returns the
 ; greatest argument passed to it so far.
