@@ -89,6 +89,22 @@
 ; 100 inclusive, that returns the result of a time-consuming computation.
 ; Define a function frugal that returns the same answer, but only calls
 ; expensive when given an argument it has not seen before.
+(defun expensive (x)
+  "this is supposed to be expensive"
+  (print "called expensive")
+  (* x x))
+
+(let ((frugal-storage (make-hash-table)))
+  (defun frugal (x)
+    (or (gethash x frugal-storage)
+        (setf (gethash x frugal-storage) (expensive x)))))
 
 ; 9. Define a function like apply, but where any number printed out before it
 ; returns will be printed, by default, in octal (base 8).
+(defun apply-octal (fn &rest args)
+  (let ((*print-base* 8))
+    (return-from apply-octal (apply fn args))))
+; usage
+;> (apply-octal #'(lambda (a b) (print (- a b))) 13 2)
+;13
+;11
