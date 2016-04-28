@@ -1,8 +1,5 @@
-(defun fibonacci (n)
-  (fibonacci-raw 1 1 1 n))
-
-(defun fibonacci-raw (p1 p2 cur n)
-  (cond ((eql n 0) 1)
-        ((eql n 1) 1)
-        ((eql cur n) p2)
-        (t (fibonacci-raw p2 (+ p1 p2) (+ cur 1) n))))
+(defun fib (n &optional (f0 1) (f1 1) (n0 0) (n1 1) (cur 1))
+  (cond ((eql n n0) f0)
+        ((eql n n1) f1)
+        ((eql cur n) f1)
+        (t (fib n f1 (+ f0 f1) n0 n1 (+ cur 1)))))
