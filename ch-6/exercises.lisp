@@ -1,6 +1,6 @@
 ; ------------- chapter 6 exercises
 ;
-; 1. Defina a version of tokens (page 67) that takes :test and :start arguments
+; 1. Define a version of tokens (page 67) that takes :test and :start arguments
 ; defaulting to #'constituent and 0 respectively.
 (defun tokens (str &key (test #'constituent) (start 0))
   (let ((p1 (position-if test str :start start)))

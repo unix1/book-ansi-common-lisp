@@ -1,0 +1,5 @@
+this is a file with comments
+comment char is #
+anything after the comment char should not be displayed in output
+this should display # this should not display
+last line
