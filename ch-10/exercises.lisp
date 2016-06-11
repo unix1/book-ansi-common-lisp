@@ -1,4 +1,4 @@
-; ------------- chapter 8 exercises
+; ------------- chapter 10 exercises
 ;
 ; 1. If x is a, y is b, and z is (c d), write backquoted expressions containing
 ; only variables that yield each of the following:
