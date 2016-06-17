@@ -28,8 +28,34 @@
 ;     (nth-expr n (/ 1 0) (+ 1 2) (/ 1 0)))
 ; 3
 
+(defmacro nth-expr (n &rest exprs)
+  `(,@(nth n exprs)))
+(defmacro nth-expr2 (n &rest exprs)
+  (nth n exprs))
+
 ; 4. Define ntimes (page 167) to expand into a (local) recursive function
 ; instead of a do.
+
+(defmacro ntimes-i (n &rest body)
+  (let ((g (gensym))
+        (h (gensym)))
+    `(let ((,h ,n))
+      (do ((,g 0 (+ ,g 1)))
+          ((>= ,g ,h))
+        ,@body))))
+
+(defmacro ntimes (n &rest body)
+  (let ((f (gensym))
+        (fn (gensym))
+        (gn (gensym))
+        (fcur (gensym)))
+    `(let ((,gn ,n))
+        (defun ,f (,fn &optional (,fcur 0))
+          (if (>= ,fcur ,fn)
+              nil
+              (progn ,@body
+                     (,f ,fn (+ ,fcur 1)))))
+         (,f ,gn))))
 
 ; 5. Define a macro n-of that takes a number n and an expression, and returns
 ; a list of n successive values returned by the expression:
