@@ -106,3 +106,5 @@
 ;     (double x)
 ;     x)
 ; 2
+(define-modify-macro double ()
+  (lambda (val) (* 2 val)))
