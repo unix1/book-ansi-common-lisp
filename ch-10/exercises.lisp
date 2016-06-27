@@ -64,9 +64,33 @@
 ;     (n-of n (incf i)))
 ; (1 2 3 4)
 
+(defmacro n-of (n expr)
+  (let ((f (gensym))
+        (gn (gensym)))
+    `(let ((,gn ,n))
+        (defun ,f (fn &optional (fcur 0) facc)
+          (if (>= fcur fn)
+              facc
+              (,f fn (+ fcur 1) (cons ,expr facc))))
+        (reverse (,f ,gn)))))
+
 ; 6. Define a macro that takes a list of variables and a body of code, and
 ; ensures that the variables revert to their original values after the body of
 ; code is evaluated.
+
+(defmacro exec-reset-vars (vars body)
+  `(let ,(mapcar #'(lambda (name) `(,name ,name)) vars)
+     ,@body))
+
+(defmacro exec-reset-vars-brute-force (vars body)
+  (let ((lst (gensym)))
+    `(let ((,lst (reverse ,(reduce #'(lambda (acc var) `(cons ,(symbol-value var) ,acc))
+                                   vars
+                                   :initial-value nil))))
+         ,@body
+         ,@(mapcar #'(lambda (var) `(setf ,var (pop ,lst)))
+                   vars))))
+
 
 ; 7. What's wrong with the following definition of push?
 ;
